@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07111f">
+  <title>INFRA//LAB — Network Engineer Simulator</title>
+  <meta name="description" content="Un simulateur réseau interactif dans le navigateur : construisez un LAN, configurez les IP, testez le ping et résolvez des missions.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="INFRA LAB accueil">
+        <span class="brand-mark">I<span>//</span>L</span>
+        <span><b>INFRA<span class="slash">//</span>LAB</b><small>NETWORK ENGINEER SIMULATOR</small></span>
+      </a>
+      <div class="top-status"><span class="live-dot"></span> LAB ENVIRONMENT <span class="status-sep">/</span> <span id="clock">SESSION 00:00</span></div>
+      <div class="top-actions"><button class="ghost-btn" id="helpBtn">? Guide</button><button class="profile-chip"><span class="avatar">NE</span><span>NETWORK<br><b>TRAINEE</b></span></button></div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="eyebrow-line"></span> INTERACTIVE NETWORK LAB <span class="version">BETA 1.0</span></div>
+          <h1>Build. Connect.<br><span>Troubleshoot.</span></h1>
+          <p>Construisez une infrastructure, configurez les équipements et résolvez des incidents réseau dans un laboratoire interactif.</p>
+          <div class="hero-metrics">
+            <div><strong id="score">000</strong><span>XP EARNED</span></div>
+            <div><strong id="missionCount">01<span>/04</span></strong><span>MISSIONS</span></div>
+            <div><strong id="connectedCount">0/4</strong><span>DEVICES ONLINE</span></div>
+          </div>
+        </div>
+        <div class="hero-visual" aria-label="Illustration du réseau">
+          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+          <div class="visual-grid"></div>
+          <div class="server-illustration"><div class="server-top"></div><div class="server-unit"><i></i><i></i><i></i><span></span></div><div class="server-unit"><i></i><i></i><i></i><span></span></div><div class="server-unit"><i></i><i></i><i></i><span></span></div><div class="server-base"></div></div>
+          <div class="float-tag tag-a"><span class="live-dot"></span> CORE-SW-01 <b>ONLINE</b></div>
+          <div class="float-tag tag-b"><span class="tiny-icon">⌁</span> VLAN 10 <b>ACTIVE</b></div>
+          <div class="float-tag tag-c"><span class="tiny-icon">↗</span> NETWORK HEALTH <b>98%</b></div>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <aside class="sidebar panel">
+          <div class="panel-heading"><div><span class="section-kicker">01 / OBJECTIVE</span><h2>Mission control</h2></div><span class="mission-icon">◎</span></div>
+          <div class="mission-list" id="missionList">
+            <button class="mission-item active" data-mission="0"><span class="mission-number">01</span><span class="mission-text"><b>First Connection</b><small>Connecter un LAN</small></span><span class="mission-state">●</span></button>
+            <button class="mission-item" data-mission="1"><span class="mission-number">02</span><span class="mission-text"><b>IP Configuration</b><small>Configurer les adresses</small></span><span class="mission-state">○</span></button>
+            <button class="mission-item" data-mission="2"><span class="mission-number">03</span><span class="mission-text"><b>VLAN Segmentation</b><small>Isoler les services</small></span><span class="mission-state">○</span></button>
+            <button class="mission-item" data-mission="3"><span class="mission-number">04</span><span class="mission-text"><b>Network Detective</b><small>Diagnostiquer un incident</small></span><span class="mission-state">○</span></button>
+          </div>
+          <div class="objective-card"><div class="objective-top"><span class="objective-pulse"></span><span id="objectiveLabel">MISSION ACTIVE</span><span class="difficulty">EASY</span></div><h3 id="objectiveTitle">First Connection</h3><p id="objectiveDesc">Reliez les deux postes au switch pour créer votre premier réseau local.</p><div class="objective-progress"><div><span>PROGRESS</span><b id="progressText">0 / 2 links</b></div><div class="progress-track"><span id="progressBar"></span></div></div><button class="primary-btn full" id="checkMission">Validate mission <span>↗</span></button></div>
+          <div class="sidebar-footer"><span class="shield">⬡</span><span>SIMULATION MODE<br><b>NO PHYSICAL NETWORK REQUIRED</b></span></div>
+        </aside>
+
+        <section class="lab-column">
+          <div class="panel lab-panel">
+            <div class="panel-heading lab-heading"><div><span class="section-kicker">02 / TOPOLOGY BUILDER</span><h2>Network workspace</h2></div><div class="canvas-actions"><span class="canvas-badge"><i></i> LIVE CANVAS</span><button class="icon-btn" id="resetBtn" title="Réinitialiser">↻</button></div></div>
+            <div class="toolbar">
+              <span class="tool-label">ADD DEVICE</span>
+              <button class="device-tool" data-add="pc"><span class="device-mini pc-mini">▣</span> PC</button>
+              <button class="device-tool" data-add="switch"><span class="device-mini switch-mini">⇄</span> Switch</button>
+              <button class="device-tool" data-add="router"><span class="device-mini router-mini">◈</span> Router</button>
+              <button class="device-tool" data-add="server"><span class="device-mini server-mini">▤</span> Server</button>
+              <span class="toolbar-divider"></span>
+              <button class="tool-button" id="cableMode"><span>⌁</span> Cable mode <kbd>C</kbd></button>
+              <button class="tool-button" id="clearLinks">Clear links</button>
+            </div>
+            <div class="canvas-wrap">
+              <div class="canvas-topline"><span><i class="tiny-live"></i> TOPOLOGY / LAB-01</span><span>DRAG DEVICES TO REPOSITION</span></div>
+              <div class="network-canvas" id="networkCanvas">
+                <div class="canvas-grid"></div>
+                <svg id="linkLayer" class="link-layer" aria-hidden="true"></svg>
+                <div class="zone-label zone-left">ENDPOINTS</div><div class="zone-label zone-center">DISTRIBUTION</div><div class="zone-label zone-right">SERVICES</div>
+              </div>
+              <div class="canvas-legend"><span><i class="legend-line active-line"></i> Active link</span><span><i class="legend-line inactive-line"></i> No link</span><span><i class="legend-dot"></i> Device online</span><span class="canvas-tip" id="canvasTip">Select Cable mode, then click two devices.</span></div>
+            </div>
+            <div class="device-inspector" id="deviceInspector"><div class="inspector-empty"><span>⌖</span><div><b>Select a device</b><small>Choose an equipment on the canvas to inspect and configure it.</small></div></div></div>
+          </div>
+          <div class="bottom-grid">
+            <section class="panel terminal-panel">
+              <div class="panel-heading compact-heading"><div><span class="section-kicker">03 / COMMAND LINE</span><h2>Network terminal</h2></div><span class="terminal-tag">SIM-CLI</span></div>
+              <div class="terminal-screen" id="terminalOutput" aria-live="polite"><div class="terminal-welcome">INFRA//LAB Network OS v1.0.0</div><div class="terminal-muted">Simulation terminal. Type <b>help</b> to see available commands.</div><div class="terminal-line"><span>lab@infra:~$</span> <b>show devices</b></div><div class="terminal-result">4 devices loaded · 0 active links · awaiting configuration</div></div>
+              <form id="terminalForm" class="terminal-form"><span>lab@infra:~$</span><input id="terminalInput" autocomplete="off" spellcheck="false" placeholder="Enter command (e.g. help)"><button aria-label="Run command">RUN ↵</button></form>
+            </section>
+            <section class="panel telemetry-panel">
+              <div class="panel-heading compact-heading"><div><span class="section-kicker">04 / TELEMETRY</span><h2>Network health</h2></div><span class="health-ring">98<span>%</span></span></div>
+              <div class="telemetry-stats"><div><span>LATENCY</span><b id="latency">— <small>ms</small></b></div><div><span>PACKET LOSS</span><b id="packetLoss">— <small>%</small></b></div><div><span>ACTIVE LINKS</span><b id="activeLinks">0 <small>/ 6</small></b></div></div>
+              <div class="activity-title"><span>RECENT ACTIVITY</span><button id="clearLog">CLEAR</button></div>
+              <div class="activity-list" id="activityList"><div class="activity-row"><i class="activity-dot"></i><span>Lab environment initialized</span><time>NOW</time></div><div class="activity-row"><i class="activity-dot muted"></i><span>Waiting for your first action</span><time>—</time></div></div>
+            </section>
+          </div>
+        </section>
+      </section>
+      <footer class="footer"><span>INFRA<span>//</span>LAB © 2026</span><span>BUILT FOR LEARNING · NOT A REAL NETWORK EMULATOR</span><span>WEB SIMULATOR <b>● ONLINE</b></span></footer>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+  <div class="modal-backdrop" id="helpModal" hidden><section class="help-modal panel"><button class="modal-close" id="closeHelp">×</button><span class="section-kicker">QUICK START / GUIDE</span><h2>Welcome to the lab.</h2><p>Construisez une petite topologie et résolvez les missions étape par étape.</p><ol><li><b>Ajouter un équipement :</b> utilisez PC, Switch, Router ou Server.</li><li><b>Relier les appareils :</b> activez Cable mode, puis cliquez sur deux équipements.</li><li><b>Configurer l'IP :</b> sélectionnez un PC et renseignez IP, masque et gateway.</li><li><b>Utiliser le terminal :</b> tapez <code>help</code>, <code>show devices</code>, <code>show ip</code>, <code>ping PC-01</code> ou <code>show vlan</code>.</li><li><b>Valider :</b> terminez l'objectif et cliquez sur Validate mission.</li></ol><p class="modal-note">Les commandes et les tests sont simulés dans le navigateur. Aucun paquet réseau réel n'est envoyé.</p><button class="primary-btn full" id="startLab">Let's build a network ↗</button></section></div>
+  <script src="script.js"></script>
+</body>
+</html>
