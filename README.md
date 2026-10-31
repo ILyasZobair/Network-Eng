@@ -7,17 +7,6 @@ Un jeu original d'apprentissage réseau fonctionnant dans un navigateur moderne.
 - `style.css` : interface responsive Cyber Tech.
 - `script.js` : topologie interactive, terminal simulé, configuration IP/VLAN, missions et progression.
 
-## Lancer en local
-Ouvrez `index.html` dans un navigateur moderne. Aucun serveur, aucune installation et aucune dépendance externe ne sont nécessaires.
-
-## Publier sur GitHub Pages
-1. Créez un dépôt GitHub public, par exemple `infra-network-lab`.
-2. Cliquez sur **Add file → Upload files** et importez les trois fichiers à la racine du dépôt.
-3. Cliquez sur **Commit changes**.
-4. Allez dans **Settings → Pages**.
-5. Sous **Build and deployment**, choisissez **Deploy from a branch**.
-6. Sélectionnez `main` et `/(root)`, puis **Save**.
-7. Attendez le déploiement et ouvrez l'URL affichée dans Settings → Pages.
 
 ## Contrôles
 - Cliquez sur PC / Switch / Router / Server pour ajouter des équipements.
